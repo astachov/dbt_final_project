@@ -1,0 +1,28 @@
+name: localbike
+version: '1.0.0'
+config-version: 2
+
+# le profil à utiliser dans ~/.dbt/profiles.yml
+profile: localbike_profile
+
+# dossiers
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["data"]
+macro-paths: ["macros"]
+
+# dossier de sortie
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  localbike:
+    # tous vos modèles seront materialized en table par défaut
+    +materialized: table
+
+    # si vous avez un sous‐répertoire "models/dbt_aj", on y déplace ces modèles
+    dbt_aj:
+      +schema: dbt_aj
