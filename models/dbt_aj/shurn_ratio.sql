@@ -6,7 +6,7 @@ WITH
     SELECT
       DATE_TRUNC(o.order_date, MONTH) AS month,
       COUNT(DISTINCT o.customer_id)   AS active_customers
-    FROM `databird-analytics.localbike.orders` AS o
+    FROM {{ source("localbike" , "orders") }} AS o
     GROUP BY 1
   ),
 
