@@ -13,7 +13,6 @@ WITH ventes AS (
     SUM(oi.quantity * (oi.list_price - p.list_price)) AS marge
   FROM {{ source('localbike','order_items') }} AS oi
 
-  -- on passe aux vraies colonnes-clé
   JOIN {{ source('localbike','orders') }}     AS o ON o.order_id   = oi.order_id
   JOIN {{ source('localbike','products') }}   AS p ON p.product_id = oi.product_id
   JOIN {{ source('localbike','brands') }}     AS b ON b.brand_id   = p.brand_id
