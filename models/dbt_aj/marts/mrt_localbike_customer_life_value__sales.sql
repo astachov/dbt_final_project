@@ -1,16 +1,12 @@
 {{ config(materialized='table') }}
 
-{# On définit nos sources pour qualifier correctement les tables #}
-{% set order_items = source('localbike', 'order_items') %}
-{% set products    = source('localbike', 'products') %}
-
 WITH product_sales AS (
 
   SELECT
     oi.product_id,
     SUM(oi.quantity)                 AS total_quantity_sold,
     SUM(oi.quantity * oi.list_price) AS total_revenue
-  FROM {{ order_items }} AS oi
+  FROM {{ ref('stg_localbike_order_items__sales') }} AS oi
   GROUP BY oi.product_id
 
 ),
@@ -30,7 +26,7 @@ SELECT
   rp.total_quantity_sold,
   rp.total_revenue
 FROM ranked_products AS rp
-JOIN {{ products }} AS p
+JOIN {{ ref('stg_localbike_products__production') }} AS p
   ON rp.product_id = p.product_id
 WHERE rp.product_rank <= 20
 ORDER BY rp.total_revenue DESC

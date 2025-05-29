@@ -20,7 +20,6 @@ clean-targets:
 
 models:
   localbike:
-    # tous vos modèles seront materialized en table par défaut
     +materialized: table
 
     # si vous avez un sous‐répertoire "models/dbt_aj", on y déplace ces modèles

@@ -7,7 +7,7 @@ sources:
     tables:
 
       - name: brands
-        description: "Les marques de produits"
+        description: "Product brands"
         tests:
           - unique:
               column_name: brand_id
@@ -15,12 +15,12 @@ sources:
               column_name: brand_id
         columns:
           - name: brand_id
-            description: "Identifiant unique de la marque"
+            description: "Unique brand identifier"
           - name: brand_name
-            description: "Nom de la marque"
+            description: "Brand name"
 
       - name: categories
-        description: "Les catégories de produits"
+        description: "Product categories"
         tests:
           - unique:
               column_name: category_id
@@ -28,12 +28,12 @@ sources:
               column_name: category_id
         columns:
           - name: category_id
-            description: "Identifiant unique de la catégorie"
+            description: "Unique category identifier"
           - name: category_name
-            description: "Nom de la catégorie"
+            description: "Category name"
 
       - name: customers
-        description: "Les clients"
+        description: "Customers"
         tests:
           - unique:
               column_name: customer_id
@@ -41,26 +41,26 @@ sources:
               column_name: customer_id
         columns:
           - name: customer_id
-            description: "Identifiant unique du client"
+            description: "Unique customer identifier"
           - name: first_name
-            description: "Prénom du client"
+            description: "Customer first name"
           - name: last_name
-            description: "Nom de famille du client"
+            description: "Customer last name"
           - name: phone
-            description: "Téléphone du client"
+            description: "Customer phone number"
           - name: email
-            description: "Email du client"
+            description: "Customer email"
           - name: street
-            description: "Rue du client"
+            description: "Customer street address"
           - name: city
-            description: "Ville du client"
+            description: "Customer city"
           - name: state
-            description: "État ou région du client"
+            description: "Customer state or region"
           - name: zip_code
-            description: "Code postal du client"
+            description: "Customer zip code"
 
       - name: orders
-        description: "Les commandes"
+        description: "Orders"
         tests:
           - unique:
               column_name: order_id
@@ -73,24 +73,24 @@ sources:
               field: customer_id
         columns:
           - name: order_id
-            description: "Identifiant unique de la commande"
+            description: "Unique order identifier"
           - name: customer_id
-            description: "Identifiant du client"
+            description: "Customer identifier"
           - name: order_status
-            description: "Statut de la commande"
+            description: "Order status"
           - name: order_date
-            description: "Date de la commande"
+            description: "Order date"
           - name: required_date
-            description: "Date requise"
+            description: "Required date"
           - name: shipped_date
-            description: "Date d'expédition"
+            description: "Shipped date"
           - name: store_id
-            description: "Identifiant du magasin"
+            description: "Store identifier"
           - name: staff_id
-            description: "Identifiant du vendeur"
+            description: "Staff identifier"
 
       - name: order_items
-        description: "Détails des lignes de commande"
+        description: "Order items details"
         tests:
           - not_null:
               column_name: order_id
@@ -104,20 +104,20 @@ sources:
               field: product_id
         columns:
           - name: order_id
-            description: "Identifiant de la commande"
+            description: "Order identifier"
           - name: item_id
-            description: "Identifiant de la ligne"
+            description: "Item identifier"
           - name: product_id
-            description: "Identifiant du produit"
+            description: "Product identifier"
           - name: quantity
-            description: "Quantité commandée"
+            description: "Ordered quantity"
           - name: list_price
-            description: "Prix unitaire"
+            description: "Unit price"
           - name: discount
-            description: "Remise appliquée"
+            description: "Applied discount"
 
       - name: products
-        description: "Le catalogue de produits"
+        description: "Product catalog"
         tests:
           - unique:
               column_name: product_id
@@ -135,20 +135,20 @@ sources:
               field: category_id
         columns:
           - name: product_id
-            description: "Identifiant unique du produit"
+            description: "Unique product identifier"
           - name: product_name
-            description: "Nom du produit"
+            description: "Product name"
           - name: brand_id
-            description: "Identifiant de la marque"
+            description: "Brand identifier"
           - name: category_id
-            description: "Identifiant de la catégorie"
+            description: "Category identifier"
           - name: model_year
-            description: "Année du modèle"
+            description: "Model year"
           - name: list_price
-            description: "Prix conseillé"
+            description: "List price"
 
       - name: staffs
-        description: "Les vendeurs"
+        description: "Sales staff"
         tests:
           - unique:
               column_name: staff_id
@@ -161,24 +161,24 @@ sources:
               field: store_id
         columns:
           - name: staff_id
-            description: "Identifiant du vendeur"
+            description: "Staff identifier"
           - name: first_name
-            description: "Prénom"
+            description: "First name"
           - name: last_name
-            description: "Nom"
+            description: "Last name"
           - name: email
             description: "Email"
           - name: phone
-            description: "Téléphone"
+            description: "Phone number"
           - name: active
-            description: "Statut actif (0/1)"
+            description: "Active status (0/1)"
           - name: store_id
-            description: "Magasin rattaché"
+            description: "Assigned store"
           - name: manager_id
-            description: "Identifiant du manager"
+            description: "Manager identifier"
 
       - name: stocks
-        description: "Stocks en magasin"
+        description: "Store inventory"
         tests:
           - not_null:
               column_name: store_id
@@ -192,14 +192,14 @@ sources:
               field: product_id
         columns:
           - name: store_id
-            description: "Identifiant du magasin"
+            description: "Store identifier"
           - name: product_id
-            description: "Identifiant du produit"
+            description: "Product identifier"
           - name: quantity
-            description: "Quantité en stock"
+            description: "Quantity in stock"
 
       - name: stores
-        description: "Les magasins"
+        description: "Stores"
         tests:
           - unique:
               column_name: store_id
@@ -207,18 +207,18 @@ sources:
               column_name: store_id
         columns:
           - name: store_id
-            description: "Identifiant du magasin"
+            description: "Store identifier"
           - name: store_name
-            description: "Nom du magasin"
+            description: "Store name"
           - name: phone
-            description: "Téléphone"
+            description: "Phone number"
           - name: email
             description: "Email"
           - name: street
-            description: "Rue"
+            description: "Street address"
           - name: city
-            description: "Ville"
+            description: "City"
           - name: state
-            description: "État / Région"
+            description: "State/Region"
           - name: zip_code
-            description: "Code postal"
+            description: "Zip code"

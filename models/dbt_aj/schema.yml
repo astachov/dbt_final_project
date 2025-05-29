@@ -1,21 +1,224 @@
-
 version: 2
 
-models:
-    - name: my_first_dbt_model
-      description: "A starter dbt model"
-      columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
+sources:
+  - name: localbike
+    database: databird-analytics
+    schema: localbike
+    tables:
 
-    - name: my_second_dbt_model
-      description: "A starter dbt model"
-      columns:
-          - name: id
-            description: "The primary key for this table"
-            tests:
-                - unique
-                - not_null
+      - name: brands_details
+        description: "Product brands"
+        tests:
+          - unique:
+              column_name: brand_id
+          - not_null:
+              column_name: brand_id
+        columns:
+          - name: brand_id
+            description: "Unique brand identifier"
+          - name: brand_name
+            description: "Brand name"
+
+      - name: categories_details
+        description: "Product categories"
+        tests:
+          - unique:
+              column_name: category_id
+          - not_null:
+              column_name: category_id
+        columns:
+          - name: category_id
+            description: "Unique category identifier"
+          - name: category_name
+            description: "Category name"
+
+      - name: customers_details
+        description: "Customers"
+        tests:
+          - unique:
+              column_name: customer_id
+          - not_null:
+              column_name: customer_id
+        columns:
+          - name: customer_id
+            description: "Unique customer identifier"
+          - name: first_name
+            description: "Customer first name"
+          - name: last_name
+            description: "Customer last name"
+          - name: phone
+            description: "Customer phone number"
+          - name: email
+            description: "Customer email"
+          - name: street
+            description: "Customer street address"
+          - name: city
+            description: "Customer city"
+          - name: state
+            description: "Customer state or region"
+          - name: zip_code
+            description: "Customer zip code"
+
+      - name: orders_details
+        description: "Orders"
+        tests:
+          - unique:
+              column_name: order_id
+          - not_null:
+              column_name: order_id
+          - not_null:
+              column_name: customer_id
+          - relationships:
+              to: source('localbike','customers')
+              field: customer_id
+        columns:
+          - name: order_id
+            description: "Unique order identifier"
+          - name: customer_id
+            description: "Customer identifier"
+          - name: order_status
+            description: "Order status"
+          - name: order_date
+            description: "Order date"
+          - name: required_date
+            description: "Required date"
+          - name: shipped_date
+            description: "Shipped date"
+          - name: store_id
+            description: "Store identifier"
+          - name: staff_id
+            description: "Staff identifier"
+
+      - name: order_items_details
+        description: "Order items details"
+        tests:
+          - not_null:
+              column_name: order_id
+          - relationships:
+              to: source('localbike','orders')
+              field: order_id
+          - not_null:
+              column_name: product_id
+          - relationships:
+              to: source('localbike','products')
+              field: product_id
+        columns:
+          - name: order_id
+            description: "Order identifier"
+          - name: item_id
+            description: "Item identifier"
+          - name: product_id
+            description: "Product identifier"
+          - name: quantity
+            description: "Ordered quantity"
+          - name: list_price
+            description: "Unit price"
+          - name: discount
+            description: "Applied discount"
+
+      - name: products_details
+        description: "Product catalog"
+        tests:
+          - unique:
+              column_name: product_id
+          - not_null:
+              column_name: product_id
+          - not_null:
+              column_name: brand_id
+          - relationships:
+              to: source('localbike','brands')
+              field: brand_id
+          - not_null:
+              column_name: category_id
+          - relationships:
+              to: source('localbike','categories')
+              field: category_id
+        columns:
+          - name: product_id
+            description: "Unique product identifier"
+          - name: product_name
+            description: "Product name"
+          - name: brand_id
+            description: "Brand identifier"
+          - name: category_id
+            description: "Category identifier"
+          - name: model_year
+            description: "Model year"
+          - name: list_price
+            description: "List price"
+
+      - name: staffs_details
+        description: "Sales staff"
+        tests:
+          - unique:
+              column_name: staff_id
+          - not_null:
+              column_name: staff_id
+          - not_null:
+              column_name: store_id
+          - relationships:
+              to: source('localbike','stores')
+              field: store_id
+        columns:
+          - name: staff_id
+            description: "Staff identifier"
+          - name: first_name
+            description: "First name"
+          - name: last_name
+            description: "Last name"
+          - name: email
+            description: "Email"
+          - name: phone
+            description: "Phone number"
+          - name: active
+            description: "Active status (0/1)"
+          - name: store_id
+            description: "Assigned store"
+          - name: manager_id
+            description: "Manager identifier"
+
+      - name: stocks_details
+        description: "Store inventory"
+        tests:
+          - not_null:
+              column_name: store_id
+          - relationships:
+              to: source('localbike','stores')
+              field: store_id
+          - not_null:
+              column_name: product_id
+          - relationships:
+              to: source('localbike','products')
+              field: product_id
+        columns:
+          - name: store_id
+            description: "Store identifier"
+          - name: product_id
+            description: "Product identifier"
+          - name: quantity
+            description: "Quantity in stock"
+
+      - name: stores_details
+        description: "Stores"
+        tests:
+          - unique:
+              column_name: store_id
+          - not_null:
+              column_name: store_id
+        columns:
+          - name: store_id
+            description: "Store identifier"
+          - name: store_name
+            description: "Store name"
+          - name: phone
+            description: "Phone number"
+          - name: email
+            description: "Email"
+          - name: street
+            description: "Street address"
+          - name: city
+            description: "City"
+          - name: state
+            description: "State/Region"
+          - name: zip_code
+            description: "Zip code"
