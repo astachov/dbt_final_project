@@ -15,4 +15,4 @@ select
     city,
     state,
     zip_code
-from {{ ref('stg_localbike_stores') }} 
+from {{ ref('stg_localbike_stores__sales') }} 

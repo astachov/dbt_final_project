@@ -5,8 +5,8 @@ WITH order_revenue AS (
     DATE_TRUNC(o.order_date, MONTH)       AS month,
     oi.order_id,
     ROUND(SUM(oi.quantity * oi.list_price),2)     AS revenue
-  FROM {{ ref('stg_localbike_orders') }} AS o
-  JOIN {{ ref('stg_localbike_order_items') }} AS oi
+  FROM {{ ref('stg_localbike_orders__sales') }} AS o
+  JOIN {{ ref('stg_localbike_order_items__sales') }} AS oi
     ON oi.order_id = o.order_id
   GROUP BY
     month,

@@ -2,5 +2,8 @@
 
 SELECT 
     product_id,
-    product_name
-FROM {{ source('localbike', 'products') }}
+    product_name,
+    brand_id,
+    list_price,
+    category_id
+FROM {{ source('localbike', 'products') }} AS p

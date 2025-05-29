@@ -6,7 +6,7 @@ WITH product_sales AS (
     oi.product_id,
     SUM(oi.quantity)                 AS total_quantity_sold,
     SUM(oi.quantity * oi.list_price) AS total_revenue
-  FROM {{ ref('stg_localbike_order_items') }} AS oi
+  FROM {{ ref('stg_localbike_order_items__sales') }} AS oi
   GROUP BY oi.product_id
 
 ),
@@ -26,7 +26,7 @@ SELECT
   rp.total_quantity_sold,
   rp.total_revenue
 FROM ranked_products AS rp
-JOIN {{ ref('stg_localbike_products') }} AS p
+JOIN {{ ref('stg_localbike_products__production') }} AS p
   ON rp.product_id = p.product_id
 WHERE rp.product_rank <= 20
 ORDER BY rp.total_revenue DESC
