@@ -11,18 +11,17 @@ WITH ventes AS (
     SUM(oi.quantity)                                AS volume,
     SUM(oi.quantity * oi.list_price)                AS chiffre_affaires,
     SUM(oi.quantity * (oi.list_price - p.list_price)) AS marge
-  FROM {{ source('localbike','order_items') }} AS oi
+  FROM {{ ref('stg_localbike_order_items') }} AS oi
 
-  -- on passe aux vraies colonnes-clé
-  JOIN {{ source('localbike','orders') }}     AS o ON o.order_id   = oi.order_id
-  JOIN {{ source('localbike','products') }}   AS p ON p.product_id = oi.product_id
-  JOIN {{ source('localbike','brands') }}     AS b ON b.brand_id   = p.brand_id
-  JOIN {{ source('localbike','categories') }} AS c ON c.category_id= p.category_id
-  JOIN {{ source('localbike','stores') }}     AS s ON s.store_id   = o.store_id
+  JOIN {{ ref('stg_localbike_orders') }}     AS o ON o.order_id   = oi.order_id
+  JOIN {{ ref('stg_localbike_products') }}   AS p ON p.product_id = oi.product_id
+  JOIN {{ ref('stg_localbike_brands') }}     AS b ON b.brand_id   = p.brand_id
+  JOIN {{ ref('stg_localbike_categories') }} AS c ON c.category_id= p.category_id
+  JOIN {{ ref('stg_localbike_stores') }}     AS s ON s.store_id   = o.store_id
 
   WHERE o.order_date
     BETWEEN '{{ var("start_date","2016-01-01") }}'
-        AND '{{ var("end_date",  "2016-03-31") }}'
+        AND '{{ var("end_date",  "2018-12-31") }}'
 
   GROUP BY
     oi.product_id,
